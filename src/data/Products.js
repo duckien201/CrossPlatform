@@ -156,7 +156,7 @@ export default function Products() {
    
     const renderProductItem = ({ item }) => (
         <TouchableOpacity onPress = {() => navigation.navigate('DetailItem', {item})}style={styles.productItem} >
-            <Image source={item.image} style={styles.image} />
+            <Image source={{ uri: item.image }} style={styles.image} />
             <Text style={styles.name}>{item.name}</Text>
             <Text style={styles.price}>{item.price}</Text>
             {/* <TouchableOpacity onPress={() => navigation.navigate('CartScreen', {item})} style={styles.addToCartButton}>
@@ -166,6 +166,7 @@ export default function Products() {
         
     );
     const renderCategoryItem = ({ item }) => (
+        
         <View style={styles.categoryItem}>
             <FlatList
                 data={item.products}

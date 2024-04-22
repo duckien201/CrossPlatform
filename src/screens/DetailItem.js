@@ -38,7 +38,7 @@ const DetailItem = ({navigation , route}) => {
             <View style={{ height: 400 }}>
                     
                         <View style={styles.image_list}>
-                            <Image source={item.image} style={styles.image} />
+                            <Image source={{ uri: item.image }} style={styles.image} />
                         </View>
             </View>
 
@@ -327,13 +327,13 @@ const styles = StyleSheet.create({
     }
     ,
     image_list: {
-        width: 400,
+        width: "100%",
         height: 400,
         backgroundColor: 'blue',
         
     },
     image: {
-        width: 400,
+        width: "100%",
         height: 400,
     },
     title: {

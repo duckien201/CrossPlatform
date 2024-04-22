@@ -9,8 +9,9 @@ import { emailValidator } from '../helpers/emailValidator'
 import axios from 'axios'
 import { passwordValidator } from '../helpers/passwordValidator'
 import { configureFonts } from 'react-native-paper'
+import { resetPassword } from '../../apiServices'
 
-export default function ResetPasswordScreen({ navigation }) {
+export default async function ResetPasswordScreen({ navigation }) {
   const [email, setEmail] = useState({ value: '', error: '' })
   const [newpassword, setNewPassword] = useState({ value: "", error: "" });
   const [confirmpassword, setConfirmPassword] = useState({value: "",error: "",});
@@ -20,7 +21,7 @@ export default function ResetPasswordScreen({ navigation }) {
 
 
 
-  const sendResetPasswordEmail = () => {
+  const sendResetPasswordEmail = async() => {
     const emailError = emailValidator(email.value)
     const newpasswordError = passwordValidator(newpassword.value)
     const confirmpasswordError = passwordValidator(confirmpassword.value)
@@ -31,29 +32,22 @@ export default function ResetPasswordScreen({ navigation }) {
       setConfirmPassword({...confirmpassword , error : confirmpassword})
       return
     }
-    navigation.navigate('LoginScreen')
+    // navigation.navigate('LoginScreen')
   }
-  axios
-      .post("http://192.168.0.108:5001/reset-password", {
-        email: email.value,
-        newpassword: newpassword.value,
-        confirmpassword: confirmpassword.value,
-      })
-      .then((response) => {
-        if (response.data.message) {
-          alert(response.data.message);
-        }
-        navigation.navigate("LoginScreen");
-      })
-      .catch((error) => {
-        if (error.response) {
-          setDialogMessage(error.response.data.message);
-          setDialogVisible(true);
-        } else {
-          console.error("Error:", error);
-        }
+  try {
+    const response = await resetPassword(email.value,newpassword.value,confirmpassword.value);
+    if(response.message === "Password reset successfully"){
+      navigation.reset({
+        index: 0,
+        routes: [{ name: "LoginScreen" }],
       });
-  
+    }else{
+      alert(response.message);
+    }
+  }catch(error){
+    alert(error,message)
+  }
+
 
   return (
     <Background>

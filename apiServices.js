@@ -1,7 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage"
 import config from "./backend/config/config";
 import axios from "axios";
-
+import { IP_PRODUCT ,IP_USERS } from "./backend/config/config";
 export const loginUser = async(email,password)=>{
     try{
     const response = await axios.post(`${IP_USERS}/login`,{
@@ -23,8 +23,8 @@ export const registerUser = async(name , email , password , phone)=>{
         const response = await axios.post(`${IP_USERS}/register`,{
             name,
             email,
-            password,
             phone,
+            password,
         })
         return response.data;
     }catch(error){
@@ -42,9 +42,9 @@ export const registerUser = async(name , email , password , phone)=>{
 export const resetPassword = async (email, newpassword , confirmpassword) =>{
 try{
     const response = await axios.post(`${IP_USERS}/reset_password`,{
-        email: email.value,
-        newpassword: newpassword.value,
-        confirmpassword : confirmpassword.value
+        email,
+        newpassword,
+        confirmpassword
     })
     return response.data
 }catch(error){
@@ -62,7 +62,7 @@ try{
 export const getAllProducts = async()=>{
     try{
         const token = await AsyncStorage.getItem('token');
-        const response = await axios.get(`${IP_PRODUCT}`,{
+        const response = await axios.get(`${IP_PRODUCT}/getAllProducts`,{
             header:{
                 Authorization :`Bearer ${token}`
             }

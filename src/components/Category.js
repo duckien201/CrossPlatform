@@ -12,6 +12,7 @@ import {
 import { Categories, COLOURS } from '../data/Constant';
 import { StyleSheet } from 'react-native'
 import Icons from 'react-native-vector-icons/AntDesign'
+import {products} from '../data/Products';
 
 const Home = ({ navigation }) => {
   const [currentSelected, setCurrentSelected] = useState([0]);
@@ -61,7 +62,7 @@ const Home = ({ navigation }) => {
           </View>
           <View style={{ width: 150, height: 150, flex: 1 }}>
             <Image
-              source={item.image}
+              source={{ uri: item.image }}
               style={{
                 width: '100%',
                 height: '100%',
@@ -110,7 +111,7 @@ const Home = ({ navigation }) => {
           </Text> */}
           <FlatList
             horizontal={true}
-            data={Categories}
+            data={products}
             renderItem={renderCategories}
             showsHorizontalScrollIndicator={false}
           />
@@ -118,7 +119,7 @@ const Home = ({ navigation }) => {
             Bán chạy
           </Text>
 
-          {Categories[currentSelected].products.map(renderItems)}
+          {products[currentSelected].products.map(renderItems)}
           <TouchableOpacity
             style={{
               margin: 30,

@@ -1,3 +1,5 @@
+import { getAllProducts } from '../../apiServices'
+import React, { useEffect, useState } from 'react'
 export const COLOURS = {
     white: '#ffffff',
     black: '#000000',
@@ -6,6 +8,7 @@ export const COLOURS = {
     accentRed: '#FB5D2E',
     accentPink: '#F96165',
   };
+
 export const Categories = [
     {
         id: '1', category: 'jean', products: [
