@@ -4,7 +4,7 @@ const router = express.Router()
 
 router.post("/register", userController.register);
 router.post("/login", userController.login);
-router.post("/reset-password", userController.resetPassword);
+router.post("/reset_password", userController.resetPassword);
 
 
 module.exports = router

@@ -12,21 +12,33 @@ const Profile = ({ navigation }) => {
 
     const [userData , setUserData] = useState("")
 
-    async function getData(){
-        const token = await AsyncStorage.getItem('token')
-        console.log(token)
-        axios.post("http://192.168.0.108:5001/userdata",{token : token})
-        .then(response => {
-            console.log(response.data)
-            setUserData(response.data.data)
-        });
+    const getUserData = async () => {
+        try {
+            const userData = await AsyncStorage.getItem('userData');
+            if (userData !== null) {
+                return JSON.parse(userData);
+            }
+            return null;
+        } catch (error) {
+            console.error('Lỗi khi lấy thông tin người dùng:', error);
+            throw error;
+        }
+    }; 
 
-    }
+    useEffect(() => {
+        fetchUserData();
+    }, []);
 
-    useEffect(()=>{
-        getData();
-    },[])
-
+    const fetchUserData = async () => {
+        try {
+            const userData = await getUserData();
+            if (userData) {
+                setUserData(userData);
+            }
+        } catch (error) {
+            console.error('Lỗi khi lấy thông tin người dùng:', error);
+        }
+    };
     return <View style={styles.container}>
 
         <View style={styles.header1}>
@@ -52,7 +64,7 @@ const Profile = ({ navigation }) => {
             <View style={styles.containerheader2}>
 
                 <Image source={require('../assets/images/list.jpg')} style={styles.imageProfile} />
-                <Text style={styles.textProfile}>Tên</Text>
+                <Text style={styles.textProfile}>{userData.name}</Text>
 
             </View>
         </View>

@@ -48,7 +48,6 @@ export default async function ResetPasswordScreen({ navigation }) {
     alert(error,message)
   }
 
-
   return (
     <Background>
       <BackButton goBack={navigation.goBack} />

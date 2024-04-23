@@ -9,6 +9,7 @@ import {
   RegisterScreen,
   ResetPasswordScreen,
   Dashboard,
+  PayCart,
 } from './src/screens'
 import Products from './src/data/Products'
 import DetailItem from './src/screens/DetailItem'
@@ -42,11 +43,10 @@ export default function App() {
           <Stack.Screen name="LoginScreen" component={LoginScreen} />
           <Stack.Screen name="RegisterScreen" component={RegisterScreen} />
           <Stack.Screen name="HomeScreen" component={Tabnavigator} />
-          {/* <Stack.Screen name="SearchScreen" component={SearchScreen} />
-          <Stack.Screen name="Categoris" component={Category} /> */}
-          {/* <Stack.Screen name="Products" component={Products} />
-          <Stack.Screen name="DetailItem" component={DetailItem} /> */}
-          {/* <Stack.Screen name="CartScreen" component={CartScreen} />
+          <Stack.Screen name="SearchScreen" component={SearchScreen} />
+          <Stack.Screen name="Categoris" component={Category} />
+          <Stack.Screen name="DetailItem" component={DetailItem} /> 
+          <Stack.Screen name="CartScreen" component={CartScreen} />
           <Stack.Screen name="Profile" component={Profile} />
           <Stack.Screen name="UserProfile" component={UserProfile} />
           <Stack.Screen name="History" component={History} />
@@ -54,8 +54,8 @@ export default function App() {
           <Stack.Screen name="ThongBao" component={ThongBao} />
           <Stack.Screen name="BillDetail" component={BillDetail} />
           <Stack.Screen name="TinNhan" component={TinNhan} />
-          <Stack.Screen name="Dashboard" component={Dashboard} /> */}
-          
+          <Stack.Screen name="Dashboard" component={Dashboard} />
+          <Stack.Screen name="PayCart" component={PayCart} />
           <Stack.Screen
             name="ResetPasswordScreen"
             component={ResetPasswordScreen}

@@ -3,10 +3,12 @@ import { Image } from 'react-native'
 import { StyleSheet, Text, View, TouchableOpacity, TextInput, ScrollView , FlatList} from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import Icons from 'react-native-vector-icons/AntDesign'
-import Products from '../data/Products';
-const DetailItem = ({navigation , route}) => {
+import { useNavigation } from "@react-navigation/native";
+export default function DetailItem ({route}) {
+    const navigation = useNavigation()
     const { item } = route.params
-    return <View style={styles.container}>
+    return (
+    <View style={styles.container}>
         <View style={styles.header1}>
             <View style={styles.iconback}>
                 <TouchableOpacity onPress={() => navigation.goBack()}>
@@ -20,9 +22,7 @@ const DetailItem = ({navigation , route}) => {
                 <Image source={require('../assets/images/logonew.png')} resizeMode='cover' style={styles.image1} />
             </View>
             <View style={styles.iconcart}>
-                <TouchableOpacity onPress={() => {
-            navigation.navigate('CartScreen', { title: "màn hình giỏ hàng" })
-        }}>
+                <TouchableOpacity onPress = {() => navigation.navigate('CartScreen', {item})}>
                 <Icons name='shoppingcart'
                     size={25}
                     color=' black'>
@@ -55,9 +55,7 @@ const DetailItem = ({navigation , route}) => {
                     </View>
 
             <View style={{ flexDirection: 'row', height: 80, backgroundColor: '#E5F3FE' }}>
-                <TouchableOpacity onPress={() => {
-            navigation.navigate('CartScreen', { title: "màn hình giỏ hàng" })
-        }} >
+                <TouchableOpacity onPress = {() => navigation.navigate('CartScreen', {item})}>
                 <View style={styles.themgiohang}>
                     <Text style={{ textAlign: 'center', marginTop: 8, color: '#6945D6', fontWeight: 'bold' }}>
                         + GIỎ HÀNG
@@ -270,7 +268,7 @@ const DetailItem = ({navigation , route}) => {
 
 
     </View>
-
+    )
 }
 
 const styles = StyleSheet.create({
@@ -399,5 +397,3 @@ const styles = StyleSheet.create({
     }
 
 })
-
-export default DetailItem

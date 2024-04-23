@@ -32,6 +32,8 @@ export default function LoginScreen({ navigation }) {
     try{
       const response = await loginUser(email.value, password.value);
       if (response.message === "Đăng nhập thành công!"){
+        await AsyncStorage.setItem('userData', JSON.stringify(response));
+        
         navigation.reset({
           index: 0,
           routes: [{ name: "HomeScreen" }],

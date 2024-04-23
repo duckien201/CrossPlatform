@@ -1,131 +1,217 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import { View, Text, TextInput, StyleSheet, Button, TouchableOpacity, ScrollView,Image } from 'react-native';
 
-const PayCart = ({ navigation }) => {
-    const [address, setAddress] = useState('');
-    const [paymentMethod, setPaymentMethod] = useState('');
-    const [shippingMethod, setShippingMethod] = useState('');
+export default function CheckoutScreen({ route, navigation }) {
+  const { cartItems } = route.params;
+  const [customerName, setCustomerName] = useState('');
+  const [billingAddress, setBillingAddress] = useState('');
+  const [phoneNumber, setPhoneNumber] = useState('');
 
-    const handleSelectPaymentMethod = (method) => {
-        setPaymentMethod(method);
-    };
+  const calculateTotal = () => {
+    let total = 0;
+    cartItems.forEach(item => {
+      const priceInVND = parseFloat(item.price.replace(/\./g, ''));
+      total += priceInVND * item.quantity;
+    });
+    return total;
+  };
 
-    const handleSelectShippingMethod = (method) => {
-        setShippingMethod(method);
-    };
+  const formatNumberWithDot = (number) => {
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+  };
 
-    const handlePayment = () => {
-        navigation.navigate('....');
-    };
+  const handlePlaceOrder = ({navigation}) => {
+    
+    // Implement order processing logic here, potentially sending data to a server
+    if( customerName.length===0 || billingAddress.length===0 || phoneNumber.length===0){
+        alert(" bạn vui lòng nhập đầy đủ thông tin")
+        return false;
+      }
+    alert('bạn đã đặt hàng thành công...');
+    navigation.goBack(); // Go back to CartScreen after placing order
+  };
 
+  const renderOrderSummary = () => {
     return (
-        <View style={styles.container}>
-            <View style={styles.content}>
-                <View style={styles.header}>
-                    <TouchableOpacity style={styles.backButton} onPress={() => navigation.goBack()}>
-                        <MaterialIcons name="arrow-back" size={24} color="black" />
-                    </TouchableOpacity>
-                    <Text style={styles.headerTitle}>Thông tin thanh toán</Text>
-                </View>
-                <TextInput
-                    style={styles.input}
-                    placeholder="Địa chỉ giao hàng"
-                    value={address}
-                    onChangeText={text => setAddress(text)}
-                />
-                <Text style={styles.paymentTitle}>Phương thức thanh toán</Text>
-                <TouchableOpacity style={styles.paymentOption} onPress={() => handleSelectPaymentMethod('credit_card')}>
-                    <MaterialIcons name={paymentMethod === 'credit_card' ? 'radio-button-checked' : 'radio-button-unchecked'} size={24} color="black" />
-                    <Text style={styles.paymentOptionText}>Thẻ tín dụng</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.paymentOption} onPress={() => handleSelectPaymentMethod('paypal')}>
-                    <MaterialIcons name={paymentMethod === 'paypal' ? 'radio-button-checked' : 'radio-button-unchecked'} size={24} color="black" />
-                    <Text style={styles.paymentOptionText}>PayPal</Text>
-                </TouchableOpacity>
-                <Text style={styles.shippingTitle}>Phương thức vận chuyển</Text>
-                <TouchableOpacity style={styles.shippingOption} onPress={() => handleSelectShippingMethod('standard')}>
-                    <MaterialIcons name={shippingMethod === 'standard' ? 'radio-button-checked' : 'radio-button-unchecked'} size={24} color="black" />
-                    <Text style={styles.shippingOptionText}>Vận chuyển tiêu chuẩn</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.shippingOption} onPress={() => handleSelectShippingMethod('express')}>
-                    <MaterialIcons name={shippingMethod === 'express' ? 'radio-button-checked' : 'radio-button-unchecked'} size={24} color="black" />
-                    <Text style={styles.shippingOptionText}>Vận chuyển nhanh</Text>
-                </TouchableOpacity>
-            </View>
-            <TouchableOpacity style={styles.button} onPress={handlePayment}>
-                <Text style={styles.buttonText}>Xác nhận thanh toán</Text>
-            </TouchableOpacity>
+      <View style={styles.orderSummaryContainer}>
+        <Text style={styles.orderSummaryTitle}>Thông tin đơn hàng</Text>
+        <View style={styles.orderInfoContainer}>
+          <Text style={styles.orderInfoLabel}>Họ và tên:</Text>
+          <Text style={styles.orderInfoValue}>{customerName}</Text>
+          <Text style={styles.orderInfoLabel}>Địa chỉ:</Text>
+          <Text style={styles.orderInfoValue}>{billingAddress}</Text>
+          <Text style={styles.orderInfoLabel}>Số điện thoại:</Text>
+          <Text style={styles.orderInfoValue}>{phoneNumber}</Text>
         </View>
+        <View style={{
+          justifyContent:"center",
+          alignItems:'center',
+          marginBottom:15,
+        }}>
+          <Text >---------------------------------------------------------------------</Text>
+        </View>
+        {cartItems.map(item => (
+          <View key={item.id} style={styles.orderItem}>
+            <Text style={styles.orderItemName}>{item.name}</Text>
+            <Text style={styles.orderItemQuantity}>Số lượng: {item.quantity}</Text>
+            <Text style={styles.orderItemPrice}>Giá: {formatNumberWithDot(parseFloat(item.price.replace(/\./g, '')) * item.quantity)} VNĐ</Text>
+          </View>
+        ))}
+        <View style={styles.orderTotal}>
+          <Text style={styles.orderTotalLabel}>Tổng tiền:</Text>
+          <Text style={styles.orderTotalValue}>{formatNumberWithDot(calculateTotal())} VNĐ</Text>
+        </View>
+      </View>
     );
-};
+  };
+
+  return (
+    <View style={styles.container}>
+      <ScrollView style={styles.body}>
+        <View style={{flexDirection:'row',
+          justifyContent:'space-between',
+          alignItems:'center'}}>
+          <View >
+            <Image style={{
+              width:150,height:90,
+            }} source = {require('../assets/images/logonew.png')}/>
+          </View>
+          <View>
+            <Text style={{
+              marginTop:10,
+              marginLeft:15,
+              width:'100%',
+              fontSize: 25,
+              color: '#0A8D61',
+              fontWeight: 'bold',
+              paddingVertical: 20,
+              textAlign: 'center'
+            }}>MAGIC BILLIARD </Text>
+          </View>
+        </View>
+        <Text style={styles.header}>Thông tin thanh toán</Text>
+        <View style={styles.infoContainer}>
+          <Text style={styles.infoLabel}>Họ và tên:</Text>
+          <TextInput
+            style={styles.infoInput}
+            value={customerName}
+            onChangeText={setName => setCustomerName(setName)}
+            placeholder="Nhập họ và tên"
+          />
+          <Text style={styles.infoLabel}>Địa chỉ nhận hàng:</Text>
+          <TextInput
+            style={styles.infoInput}
+            value={billingAddress}
+            onChangeText={setAddress => setBillingAddress(setAddress)}
+            placeholder="Nhập địa chỉ thanh toán"
+          />
+          <Text style={styles.infoLabel}>Số điện thoại:</Text>
+          <TextInput
+            style={styles.infoInput}
+            value={phoneNumber}
+            onChangeText={setPhone => setPhoneNumber(setPhone)}
+            placeholder="Nhập số điện thoại"
+            keyboardType="numeric" // Set keyboard type for phone numbers
+          />
+        </View>
+        <View style={{
+          justifyContent:"center",
+          alignItems:'center',
+          marginBottom:15,
+        }}>
+          <Text >---------------------------------------------------------------------</Text>
+        </View>
+        {renderOrderSummary()}
+        <View style={{justifyContent:"center",alignItems:"center",marginBottom:14}}>
+          <TouchableOpacity style={styles.placeOrderButton} onPress={handlePlaceOrder}>
+            <Text style={styles.placeOrderText}>Đặt hàng</Text>
+          </TouchableOpacity>
+        </View>
+      </ScrollView>
+    </View>
+  );
+}
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        paddingHorizontal: 20,
-        paddingVertical: 30,
-        justifyContent: 'flex-end', 
-    },
-    content: {
-        flex: 1,
+    container:{flex:1,
+        backgroundColor:'#eff7f8',
+       },
+    body: {
+      flex: 1,
+      padding: 20,
     },
     header: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginBottom: 20,
+        marginTop:10,
+      fontSize: 20,
+      fontWeight: 'bold',
+      textAlign: 'center',
+      marginBottom:10,
+      fontSize: 25,
+      color: '#0A8D61',
+    
+      
     },
-    backButton: {
-        marginRight: 10,
+    infoContainer: {
+      marginBottom: 20,
     },
-    headerTitle: {
-        fontSize: 20,
-        fontWeight: 'bold',
-        flex: 1,
+    infoLabel: {
+      fontSize: 16,
+      marginBottom: 5,
     },
-    input: {
-        height: 40,
-        borderColor: 'gray',
-        borderWidth: 1,
-        borderRadius: 5,
-        marginBottom: 20,
-        paddingHorizontal: 10,
+    infoInput: {
+        height:44,
+        backgroundColor:'#fff',
+        borderWidth:2,
+        borderColor:'#21a3d0',
+        borderRadius:15,
+        paddingHorizontal:20,
+        paddingVertical:10,
+        color:'#000000',
     },
-    paymentTitle: {
-        fontSize: 16,
-        marginBottom: 10,
+    orderSummaryTitle: {
+      fontSize: 18,
+      fontWeight: 'bold',
+      marginBottom: 10,
     },
-    paymentOption: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginBottom: 10,
+    orderItem: {
+      marginBottom: 10,
+      flexDirection: 'row',
+      justifyContent: 'space-between',
     },
-    paymentOptionText: {
-        marginLeft: 10,
+    orderItemName: {
+      fontSize: 16,
     },
-    shippingTitle: {
-        fontSize: 16,
-        marginBottom: 10,
+    orderItemQuantity: {
+      fontSize: 14,
     },
-    shippingOption: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginBottom: 10,
+    orderItemPrice: {
+      fontSize: 14,
     },
-    shippingOptionText: {
-        marginLeft: 10,
+    orderTotal: {
+      marginBottom: 20,
+      flexDirection: 'row',
+      justifyContent: 'space-between',
+      alignItems: 'center',
     },
-    button: {
-        backgroundColor: 'blue',
-        paddingVertical: 15,
-        borderRadius: 5,
-        alignItems: 'center',
+    orderTotalLabel: {
+      fontSize: 16,
+      fontWeight: 'bold',
     },
-    buttonText: {
-        fontSize: 16,
-        fontWeight: 'bold',
-        color: '#ffffff',
+    orderTotalValue: {
+      fontSize: 18,
     },
-});
-
-export default PayCart;
+    placeOrderButton: {
+        width:150,
+        justifyContent:'center',
+        textAlign:"center",
+      backgroundColor: 'blue',
+      padding: 15,
+      borderRadius: 10,
+      marginTop: 20,
+    },
+    placeOrderText: {
+      color: 'white',
+      fontSize: 18,
+      textAlign: 'center',
+    },
+  });
