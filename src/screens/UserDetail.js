@@ -1,11 +1,17 @@
-import React from 'react'
+import React ,{ useEffect, useState }from 'react'
 import { Image } from 'react-native'
-import { StyleSheet, Text, View, TouchableOpacity, TextInput, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, ScrollView } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
 import AntDesigns from "react-native-vector-icons/AntDesign"
 import Button from '../components/Button'
+import TextInput from '../components/TextInput';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+export default function UserDetail ({ navigation }){
 
-const UserDetail = ({ navigation }) => {
+    const [name, setName] = useState();
+    const [email, setEmail] = useState();
+    const [phone, setPhone] = useState();
+    const [isEditing, setIsEditing] = useState(false);
     
     const onSignoutPressed = async () => {
 
@@ -28,6 +34,10 @@ const UserDetail = ({ navigation }) => {
         }
         fetchUserData()
       }, [])
+
+      const handleChangePassword = () => {
+        navigation.navigate('ChangePasswordScreen');
+      };
 
     return <View style={styles.container}>
 
@@ -176,5 +186,3 @@ const styles = StyleSheet.create({
     }
 
 })
-
-export default UserDetail
