@@ -8,17 +8,15 @@ import {
   LoginScreen,
   RegisterScreen,
   ResetPasswordScreen,
-  Dashboard,
+  DashBoard,
   PayCart,
 } from './src/screens'
-import Products from './src/data/Products'
 import DetailItem from './src/screens/DetailItem'
 import HomeScreen from './src/screens/HomeScreen'
 import Tabnavigator from './src/components/Tabnavigator'
 import SearchScreen from './src/screens/SearchScreen'
 import CartScreen from './src/screens/CartScreen'
-import Profile from './src/screens/Profile'
-import UserProfile from './src/screens/UserProfile'
+import ProfileScreen from './src/screens/ProfileScreen'
 import History from './src/screens/more/History'
 import DanhGia from './src/screens/more/DanhGia'
 import ThongBao from './src/screens/more/ThongBao'
@@ -47,14 +45,13 @@ export default function App() {
           <Stack.Screen name="Categoris" component={Category} />
           <Stack.Screen name="DetailItem" component={DetailItem} /> 
           <Stack.Screen name="CartScreen" component={CartScreen} />
-          <Stack.Screen name="Profile" component={Profile} />
-          <Stack.Screen name="UserProfile" component={UserProfile} />
+          <Stack.Screen name="Profile" component={ProfileScreen} />
           <Stack.Screen name="History" component={History} />
           <Stack.Screen name="DanhGia" component={DanhGia} />
           <Stack.Screen name="ThongBao" component={ThongBao} />
           <Stack.Screen name="BillDetail" component={BillDetail} />
           <Stack.Screen name="TinNhan" component={TinNhan} />
-          <Stack.Screen name="Dashboard" component={Dashboard} />
+          <Stack.Screen name="Dashboard" component={DashBoard} />
           <Stack.Screen name="PayCart" component={PayCart} />
           <Stack.Screen
             name="ResetPasswordScreen"

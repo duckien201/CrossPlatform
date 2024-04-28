@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, Button, TouchableOpacity, ScrollView,Image } from 'react-native';
-
+import { View, Text, TextInput, StyleSheet, Button, TouchableOpacity, ScrollView, Image } from 'react-native';
+import Icons from 'react-native-vector-icons/AntDesign'
 export default function CheckoutScreen({ route, navigation }) {
   const { cartItems } = route.params;
   const [customerName, setCustomerName] = useState('');
@@ -20,13 +20,13 @@ export default function CheckoutScreen({ route, navigation }) {
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
   };
 
-  const handlePlaceOrder = ({navigation}) => {
-    
+  const handlePlaceOrder = ({ navigation }) => {
+
     // Implement order processing logic here, potentially sending data to a server
-    if( customerName.length===0 || billingAddress.length===0 || phoneNumber.length===0){
-        alert(" bạn vui lòng nhập đầy đủ thông tin")
-        return false;
-      }
+    if (customerName.length === 0 || billingAddress.length === 0 || phoneNumber.length === 0) {
+      alert(" bạn vui lòng nhập đầy đủ thông tin")
+      return false;
+    }
     alert('bạn đã đặt hàng thành công...');
     navigation.goBack(); // Go back to CartScreen after placing order
   };
@@ -36,24 +36,55 @@ export default function CheckoutScreen({ route, navigation }) {
       <View style={styles.orderSummaryContainer}>
         <Text style={styles.orderSummaryTitle}>Thông tin đơn hàng</Text>
         <View style={styles.orderInfoContainer}>
-          <Text style={styles.orderInfoLabel}>Họ và tên:</Text>
-          <Text style={styles.orderInfoValue}>{customerName}</Text>
-          <Text style={styles.orderInfoLabel}>Địa chỉ:</Text>
-          <Text style={styles.orderInfoValue}>{billingAddress}</Text>
-          <Text style={styles.orderInfoLabel}>Số điện thoại:</Text>
-          <Text style={styles.orderInfoValue}>{phoneNumber}</Text>
+          <View style={{ flexDirection: 'row' }}>
+            <View>
+              <Text style={styles.orderInfoLabel}>Họ và tên:</Text>
+            </View>
+            <View>
+              <Text style={styles.orderInfoValue}>{customerName}</Text>
+            </View>
+
+          </View>
+          <View style={{ flexDirection: 'row' }}>
+            <View>
+              <Text style={styles.orderInfoLabel}>Địa chỉ:</Text>
+            </View>
+            <View>
+              <Text style={styles.orderInfoValue}>{billingAddress}</Text>
+            </View>
+
+          </View>
+          <View style={{ flexDirection: 'row' }}>
+            <View>
+              <Text style={styles.orderInfoLabel}>Số điện thoại:</Text>
+            </View>
+            <View>
+              <Text style={styles.orderInfoValue}>{phoneNumber}</Text>
+            </View>
+
+          </View>
+
         </View>
         <View style={{
-          justifyContent:"center",
-          alignItems:'center',
-          marginBottom:15,
+          justifyContent: "center",
+          alignItems: 'center',
+          marginBottom: 15,
         }}>
-          <Text >---------------------------------------------------------------------</Text>
+          {/* <Text >---------------------------------------------------------------------</Text> */}
         </View>
+
         {cartItems.map(item => (
           <View key={item.id} style={styles.orderItem}>
-            <Text style={styles.orderItemName}>{item.name}</Text>
-            <Text style={styles.orderItemQuantity}>Số lượng: {item.quantity}</Text>
+            <View style={{flexDirection :'row'}}>
+            <View>
+              <Text style={styles.orderItemName}>{item.name}</Text>
+              <Text style={styles.orderItemQuantity}>Số lượng: {item.quantity}</Text>
+            </View>
+            <View>
+              <Image source={{ uri: item.image }} style={styles.image} />
+            </View>
+            </View>
+            
             <Text style={styles.orderItemPrice}>Giá: {formatNumberWithDot(parseFloat(item.price.replace(/\./g, '')) * item.quantity)} VNĐ</Text>
           </View>
         ))}
@@ -68,25 +99,22 @@ export default function CheckoutScreen({ route, navigation }) {
   return (
     <View style={styles.container}>
       <ScrollView style={styles.body}>
-        <View style={{flexDirection:'row',
-          justifyContent:'space-between',
-          alignItems:'center'}}>
-          <View >
+        <View style={{
+          flexDirection: 'row',
+          alignItems: 'center'
+        }}>
+          <View style={{flex : 1}}>
+          <TouchableOpacity onPress={() => navigation.goBack()}>
+            <Icons name='arrowleft'
+              size={25}
+              color=' black'>
+            </Icons>
+          </TouchableOpacity>
+        </View>
+          <View style={{flex : 6 , alignItems :'center'}}>
             <Image style={{
-              width:150,height:90,
-            }} source = {require('../assets/images/logonew.png')}/>
-          </View>
-          <View>
-            <Text style={{
-              marginTop:10,
-              marginLeft:15,
-              width:'100%',
-              fontSize: 25,
-              color: '#0A8D61',
-              fontWeight: 'bold',
-              paddingVertical: 20,
-              textAlign: 'center'
-            }}>MAGIC BILLIARD </Text>
+              width: 150, height: 80,
+            }} source={require('../assets/images/logonew.png')} />
           </View>
         </View>
         <Text style={styles.header}>Thông tin thanh toán</Text>
@@ -115,14 +143,14 @@ export default function CheckoutScreen({ route, navigation }) {
           />
         </View>
         <View style={{
-          justifyContent:"center",
-          alignItems:'center',
-          marginBottom:15,
+          justifyContent: "center",
+          alignItems: 'center',
+          marginBottom: 15,
         }}>
           <Text >---------------------------------------------------------------------</Text>
         </View>
         {renderOrderSummary()}
-        <View style={{justifyContent:"center",alignItems:"center",marginBottom:14}}>
+        <View style={{ justifyContent: "center", alignItems: "center", marginBottom: 14 }}>
           <TouchableOpacity style={styles.placeOrderButton} onPress={handlePlaceOrder}>
             <Text style={styles.placeOrderText}>Đặt hàng</Text>
           </TouchableOpacity>
@@ -133,85 +161,105 @@ export default function CheckoutScreen({ route, navigation }) {
 }
 
 const styles = StyleSheet.create({
-    container:{flex:1,
-        backgroundColor:'#eff7f8',
-       },
-    body: {
-      flex: 1,
-      padding: 20,
-    },
-    header: {
-        marginTop:10,
-      fontSize: 20,
-      fontWeight: 'bold',
-      textAlign: 'center',
-      marginBottom:10,
-      fontSize: 25,
-      color: '#0A8D61',
-    
-      
-    },
-    infoContainer: {
-      marginBottom: 20,
-    },
-    infoLabel: {
-      fontSize: 16,
-      marginBottom: 5,
-    },
-    infoInput: {
-        height:44,
-        backgroundColor:'#fff',
-        borderWidth:2,
-        borderColor:'#21a3d0',
-        borderRadius:15,
-        paddingHorizontal:20,
-        paddingVertical:10,
-        color:'#000000',
-    },
-    orderSummaryTitle: {
-      fontSize: 18,
-      fontWeight: 'bold',
-      marginBottom: 10,
-    },
-    orderItem: {
-      marginBottom: 10,
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-    },
-    orderItemName: {
-      fontSize: 16,
-    },
-    orderItemQuantity: {
-      fontSize: 14,
-    },
-    orderItemPrice: {
-      fontSize: 14,
-    },
-    orderTotal: {
-      marginBottom: 20,
-      flexDirection: 'row',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-    },
-    orderTotalLabel: {
-      fontSize: 16,
-      fontWeight: 'bold',
-    },
-    orderTotalValue: {
-      fontSize: 18,
-    },
-    placeOrderButton: {
-        width:150,
-        justifyContent:'center',
-        textAlign:"center",
-      backgroundColor: 'blue',
-      padding: 15,
-      borderRadius: 10,
-      marginTop: 20,
-    },
-    placeOrderText: {
-      color: 'white',
-      fontSize: 18,
-      textAlign: 'center',
-    },
-  });
+  container: {
+    flex: 1,
+    backgroundColor: '#E5F3FE',
+  },
+  body: {
+    flex: 1,
+    padding: 20,
+  },
+  header: {
+    marginTop: 10,
+    fontSize: 20,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginBottom: 10,
+    fontSize: 25,
+    color: '#0A8D61',
+
+
+  },
+  infoContainer: {
+    marginBottom: 20,
+  },
+  infoLabel: {
+    fontSize: 16,
+    marginBottom: 5,
+  },
+  infoInput: {
+    height: 44,
+    backgroundColor: '#fff',
+    borderWidth: 2,
+    borderColor: '#21a3d0',
+    borderRadius: 15,
+    paddingHorizontal: 20,
+    paddingVertical: 10,
+    color: '#000000',
+  },
+  orderSummaryTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 10,
+    textAlign: 'center'
+  },
+  orderItem: {
+    marginBottom: 10,
+    justifyContent: 'space-between',
+  },
+  orderItemName: {
+    fontSize: 17,
+  },
+  image: {
+    width: 100,
+    height: 100,
+    marginLeft : 50,
+    borderRadius : 10
+  },
+  orderItemQuantity: {
+    fontSize: 17,
+  },
+  orderItemPrice: {
+    fontSize: 14,
+  },
+  orderInfoValue: {
+    fontSize: 17,
+    marginHorizontal: 20,
+    marginVertical: 3
+  },
+  orderInfoLabel: {
+    fontSize: 17,
+    fontWeight: 'bold',
+    marginHorizontal: 20,
+    marginVertical: 3
+  },
+  orderTotal: {
+    marginBottom: 20,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+  },
+  orderTotalLabel: {
+    fontSize: 17,
+    fontWeight: 'bold',
+  },
+  orderTotalValue: {
+    fontSize: 20,
+    color : 'red',
+    fontWeight : 'bold'
+  },
+  placeOrderButton: {
+    width: 150,
+    justifyContent: 'center',
+    textAlign: "center",
+    backgroundColor: 'blue',
+    padding: 15,
+    borderRadius: 10,
+    marginTop: 20,
+  },
+  placeOrderText: {
+    color: 'white',
+    fontSize: 18,
+    textAlign: 'center',
+  },
+});

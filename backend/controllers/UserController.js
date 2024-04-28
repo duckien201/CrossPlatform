@@ -48,7 +48,6 @@ exports.login = async (req, res, next) => {
       if (user.password !== req.body.password) {
         return res.status(400).json({ message: "Sai mật khẩu vui lòng nhập lại" });
       }
-  
       res.json({ message: "Đăng nhập thành công!", user: user });
     } catch (error) {
       next(error);

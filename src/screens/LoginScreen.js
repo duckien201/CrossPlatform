@@ -32,17 +32,22 @@ export default function LoginScreen({ navigation }) {
     try{
       const response = await loginUser(email.value, password.value);
       if (response.message === "Đăng nhập thành công!"){
-        await AsyncStorage.setItem('userData', JSON.stringify(response));
-        
+
+        // await AsyncStorage.setItem("token", response.token);
+        // await AsyncStorage.setItem('refreshToken', response.refreshToken);
+        await AsyncStorage.setItem('user', JSON.stringify(response.user));
+        console.log(response.user)
         navigation.reset({
           index: 0,
-          routes: [{ name: "HomeScreen" }],
+          routes: [{ name: "Dashboard" }],
         });
       }else{
         alert(response.message)
+        console.log(response.message)
       }
     }catch(error){
       alert(error.message)
+      console.log(error.message)
     }
 
 }

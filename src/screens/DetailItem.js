@@ -22,7 +22,7 @@ export default function DetailItem ({route}) {
                 <Image source={require('../assets/images/logonew.png')} resizeMode='cover' style={styles.image1} />
             </View>
             <View style={styles.iconcart}>
-                <TouchableOpacity onPress = {() => navigation.navigate('CartScreen', {item})}>
+                <TouchableOpacity onPress = {() => navigation.navigate('CartScreen')}>
                 <Icons name='shoppingcart'
                     size={25}
                     color=' black'>
@@ -63,11 +63,13 @@ export default function DetailItem ({route}) {
                 </View>
                 </TouchableOpacity>
 
+                <TouchableOpacity onPress = {() => navigation.navigate('PatCart', {item})}>
                 <View style={styles.muangay}>
                     <Text style={{ textAlign: 'center', marginTop: 8, color: 'white', fontWeight: 'bold' }}>
                         MUA NGAY
                     </Text>
                 </View>
+                </TouchableOpacity>
             </View>
 
             <View style={styles.description}>
@@ -82,186 +84,6 @@ export default function DetailItem ({route}) {
 
             <View style={styles.line1}></View>
 
-            <Text style={{ textAlign: 'center', fontWeight: 'bold' }}>
-                CÁC SẢN PHẨM TƯƠNG TỰ
-            </Text>
-
-            <View style={styles.all}>
-                <View style={styles.all_item_1}>
-                    <Image source={require('../assets/images/list.jpg')} style={styles.image2} />
-
-                    <View style={styles.textitem_1}>
-                        <View style={{ marginHorizontal: 10, marginVertical: 8 }}>
-                            <Text style={{ fontWeight: 'bold' }}>
-                                Áo cộc
-                            </Text>
-                        </View>
-                        <View style={{ marginVertical: 8, marginLeft: 15 }}>
-                            <Text>
-                                50.000
-                            </Text>
-                        </View>
-                    </View>
-                    <View style={{ flexDirection: 'row' }}>
-                        <View style={{ marginLeft: 5 }}>
-                            <Text>
-                                Tinh trang :
-                            </Text>
-                        </View>
-                        <View style={{ marginLeft: 10 }}>
-                            <Text>
-                                99%
-                            </Text>
-                        </View>
-                    </View>
-                </View>
-                <View style={styles.all_item_1}>
-                    <Image source={require('../assets/images/list.jpg')} style={styles.image2} />
-
-                    <View style={styles.textitem_1}>
-                        <View style={{ marginHorizontal: 10, marginVertical: 8 }}>
-                            <Text style={{ fontWeight: 'bold' }}>
-                                Áo cộc
-                            </Text>
-                        </View>
-                        <View style={{ marginVertical: 8, marginLeft: 15 }}>
-                            <Text>
-                                50.000
-                            </Text>
-                        </View>
-                    </View>
-                    <View style={{ flexDirection: 'row' }}>
-                        <View style={{ marginLeft: 5 }}>
-                            <Text>
-                                Tinh trang :
-                            </Text>
-                        </View>
-                        <View style={{ marginLeft: 10 }}>
-                            <Text>
-                                99%
-                            </Text>
-                        </View>
-                    </View>
-                </View>
-            </View>
-
-            <View style={styles.all}>
-                <View style={styles.all_item_1}>
-                    <Image source={require('../assets/images/list.jpg')} style={styles.image2} />
-
-                    <View style={styles.textitem_1}>
-                        <View style={{ marginHorizontal: 10, marginVertical: 8 }}>
-                            <Text style={{ fontWeight: 'bold' }}>
-                                Áo cộc
-                            </Text>
-                        </View>
-                        <View style={{ marginVertical: 8, marginLeft: 15 }}>
-                            <Text>
-                                50.000
-                            </Text>
-                        </View>
-                    </View>
-                    <View style={{ flexDirection: 'row' }}>
-                        <View style={{ marginLeft: 5 }}>
-                            <Text>
-                                Tinh trang :
-                            </Text>
-                        </View>
-                        <View style={{ marginLeft: 10 }}>
-                            <Text>
-                                99%
-                            </Text>
-                        </View>
-                    </View>
-                </View>
-                <View style={styles.all_item_1}>
-                    <Image source={require('../assets/images/list.jpg')} style={styles.image2} />
-
-                    <View style={styles.textitem_1}>
-                        <View style={{ marginHorizontal: 10, marginVertical: 8 }}>
-                            <Text style={{ fontWeight: 'bold' }}>
-                                Áo cộc
-                            </Text>
-                        </View>
-                        <View style={{ marginVertical: 8, marginLeft: 15 }}>
-                            <Text>
-                                50.000
-                            </Text>
-                        </View>
-                    </View>
-                    <View style={{ flexDirection: 'row' }}>
-                        <View style={{ marginLeft: 5 }}>
-                            <Text>
-                                Tinh trang :
-                            </Text>
-                        </View>
-                        <View style={{ marginLeft: 10 }}>
-                            <Text>
-                                99%
-                            </Text>
-                        </View>
-                    </View>
-                </View>
-            </View>
-
-            <View style={styles.all}>
-                <View style={styles.all_item_1}>
-                    <Image source={require('../assets/images/list.jpg')} style={styles.image2} />
-
-                    <View style={styles.textitem_1}>
-                        <View style={{ marginHorizontal: 10, marginVertical: 8 }}>
-                            <Text style={{ fontWeight: 'bold' }}>
-                                Áo cộc
-                            </Text>
-                        </View>
-                        <View style={{ marginVertical: 8, marginLeft: 15 }}>
-                            <Text>
-                                50.000
-                            </Text>
-                        </View>
-                    </View>
-                    <View style={{ flexDirection: 'row' }}>
-                        <View style={{ marginLeft: 5 }}>
-                            <Text>
-                                Tinh trang :
-                            </Text>
-                        </View>
-                        <View style={{ marginLeft: 10 }}>
-                            <Text>
-                                99%
-                            </Text>
-                        </View>
-                    </View>
-                </View>
-                <View style={styles.all_item_1}>
-                    <Image source={require('../assets/images/list.jpg')} style={styles.image2} />
-
-                    <View style={styles.textitem_1}>
-                        <View style={{ marginHorizontal: 10, marginVertical: 8 }}>
-                            <Text style={{ fontWeight: 'bold' }}>
-                                Áo cộc
-                            </Text>
-                        </View>
-                        <View style={{ marginVertical: 8, marginLeft: 15 }}>
-                            <Text>
-                                50.000
-                            </Text>
-                        </View>
-                    </View>
-                    <View style={{ flexDirection: 'row' }}>
-                        <View style={{ marginLeft: 5 }}>
-                            <Text>
-                                Tinh trang :
-                            </Text>
-                        </View>
-                        <View style={{ marginLeft: 10 }}>
-                            <Text>
-                                99%
-                            </Text>
-                        </View>
-                    </View>
-                </View>
-            </View>
 
 
         </ScrollView>

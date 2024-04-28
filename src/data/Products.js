@@ -155,7 +155,7 @@ export default function Products() {
     } , [])
    
     const renderProductItem = ({ item }) => (
-        <TouchableOpacity onPress = {() => navigation.navigate('DetailItem', {item})}style={styles.productItem} >
+        <TouchableOpacity onPress = {() => navigation.navigate('DetailItem', {image:item.image,name:item.name,price:item.price ,item:item})}style={styles.productItem} >
             <Image source={{ uri: item.image }} style={styles.image} />
             <Text style={styles.name}>{item.name}</Text>
             <Text style={styles.price}>{item.price}</Text>

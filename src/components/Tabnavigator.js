@@ -3,7 +3,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Icons from 'react-native-vector-icons/AntDesign'
 import CartScreen from '../screens/CartScreen';
 import HomeScreen from '../screens/HomeScreen';
-import Profile from '../screens/Profile';
+import ProfileScreen from '../screens/ProfileScreen';
 
 const Tab = createBottomTabNavigator();
 
@@ -46,7 +46,7 @@ export default function Tabnavigator () {
       />
       <Tab.Screen
         name="Profile"
-        component={Profile}
+        component={ProfileScreen}
         options={{
           tabBarLabel: 'Trang cá nhân',
           tabBarIcon: ({ color, size }) => (
