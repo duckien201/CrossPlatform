@@ -33,7 +33,7 @@ export default async function ResetPasswordScreen({ navigation }) {
       return
     }
     // navigation.navigate('LoginScreen')
-  }
+  
   try {
     const response = await resetPassword(email.value,newpassword.value,confirmpassword.value);
     if(response.message === "Password reset successfully"){
@@ -47,24 +47,26 @@ export default async function ResetPasswordScreen({ navigation }) {
   }catch(error){
     alert(error,message)
   }
-
+}
   return (
     <Background>
       <BackButton goBack={navigation.goBack} />
       <Logo />
-      <Header>Thay đổi mật khẩu</Header>
+      <Header>Đặt lại mật khẩu</Header>
+      {/* <Image source={require('../assets/img1.png')}
+      style = {{width: 250, height: 170}}
+      /> */}
       <TextInput
-        label="E-mail address"
+        label="E-mail"
         returnKeyType="done"
         value={email.value}
-        onChangeText={(text) => setEmail({ value: text, error: '' })}
+        onChangeText={(text) => setEmail({ value: text, error: "" })}
         error={!!email.error}
         errorText={email.error}
         autoCapitalize="none"
         autoCompleteType="email"
         textContentType="emailAddress"
         keyboardType="email-address"
-        description="You will receive email with password reset link."
       />
       <TextInput
         label="Mật khẩu mới"
@@ -89,8 +91,13 @@ export default async function ResetPasswordScreen({ navigation }) {
         onPress={sendResetPasswordEmail}
         style={{ marginTop: 16 }}
       >
-        Send Instructions
+        Đặt lại mật khẩu
       </Button>
+      <Dialog.Container visible={dialogVisible}>
+        <Dialog.Title>Thông báo</Dialog.Title>
+        <Dialog.Description>{dialogMessage}</Dialog.Description>
+        <Dialog.Button label="Đóng" onPress={() => setDialogVisible(false)} />
+      </Dialog.Container>
     </Background>
   )
 }

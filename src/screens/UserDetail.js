@@ -95,7 +95,7 @@ export default function UserDetail ({ navigation }){
 
             <View style={styles.bodyContent}>
 
-                <TouchableOpacity onPress={() => navigation.navigate('ResetPasswordScreen')}>
+                <TouchableOpacity onPress={handleChangePassword}>
                     <Text style={styles.textContent3}>Thay đổi mật khẩu</Text>
                 </TouchableOpacity>
 

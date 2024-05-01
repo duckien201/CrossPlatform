@@ -112,7 +112,7 @@ export default function CartScreen({ route, navigation }) {
             color=' black'>
 
           </Icons>
-          <Text style={{ fontSize: 24, margin: 20, alignItems: 'center', justifyContent: 'center' }}>Your shopping cart is empty.</Text>
+          <Text style={{ fontSize: 24, margin: 20, alignItems: 'center', justifyContent: 'center' }}>Giỏ hàng của bạn còn trống.</Text>
         </View>
 
       ) : (
@@ -150,7 +150,7 @@ const styles = StyleSheet.create({
     marginLeft: 20
   },
   item: {
-    backgroundColor: '#f9c2ff',
+    backgroundColor: '#E5F3FE',
     padding: 20,
     marginVertical: 8,
     marginHorizontal: 10,

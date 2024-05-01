@@ -1,12 +1,56 @@
 import React from 'react'
 import { Image } from 'react-native'
+import { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, TouchableOpacity, TextInput, ScrollView } from 'react-native';
 import Icons from 'react-native-vector-icons/AntDesign';
-const History = ({ navigation }) => {
+import AsyncStorage from '@react-native-async-storage/async-storage';
+const History = ({ navigation, route }) => {
+
+    const { customerName, phoneNumber, billingAddress, cartItems } = route.params
+    const [savedCartItems, setSavedCartItems] = useState([]);
+
+    useEffect(() => {
+        // Load saved cart items when the component mounts
+        loadSavedCartItems();
+    }, []);
+    useEffect(() => {
+        // Save cart items whenever it changes
+        saveCartItems();
+    }, [savedCartItems]);
+
+    const loadSavedCartItems = async () => {
+        try {
+            const savedItems = await AsyncStorage.getItem('cartItems');
+            if (savedItems !== null) {
+                setSavedCartItems(JSON.parse(savedItems));
+            }
+        } catch (error) {
+            console.error('Error loading saved cart items:', error);
+        }
+    };
+    const saveCartItems = async () => {
+        try {
+            await AsyncStorage.setItem('cartItems', JSON.stringify(cartItems));
+        } catch (error) {
+            console.error('Error saving cart items:', error);
+        }
+    };
+    const calculateTotal = (items) => {
+        let total = 0;
+        items.forEach(item => {
+            const priceInVND = parseFloat(item.price.replace(/\./g, ''));
+            total += priceInVND * item.quantity;
+        });
+        return total;
+    };
+
+    const formatNumberWithDot = (number) => {
+        return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    };
     return <View style={styles.container}>
         <View style={styles.header}>
             <View style={styles.iconback}>
-                <TouchableOpacity onPress={() => navigation.goBack()}>
+                <TouchableOpacity onPress={() => navigation.navigate('HomeScreen')}>
                     <Icons name='arrowleft'
                         size={25}
                         color=' black'>
@@ -24,52 +68,61 @@ const History = ({ navigation }) => {
 
         </View>
         <View style={styles.line}></View>
+        {cartItems.length === 0 ? (
+                <View style={styles.emptyContainer}>
+                    <Icons name='frowno' size={25} color='black' />
+                    <Text style={styles.emptyText}>Chưa có đơn hàng nào.</Text>
+                </View>
+            ) :(
+
         <ScrollView>
-        <TouchableOpacity onPress={() => {
-                    navigation.navigate('BillDetail', { title: "màn hình chi tiết đơn hàng " })
-                }}>
-            <View style={styles.item}>
-                <View style={styles.item1}>
-                    <View style={styles.item_img}>
-                        <Image source={require('../../assets/images/list.jpg')} style={styles.image} />
+            <TouchableOpacity onPress={() => {
+                navigation.navigate('BillDetail',{cartItems,customerName,phoneNumber,billingAddress})
+            }}>
+                <View style={styles.item}>
+                    {cartItems.map(item => (
+                        <View key={item.id} style={{ marginTop: 5, justifyContent: 'space-between', paddingHorizontal: 5 }}>
+                            <View style={{ flexDirection: 'row' }}>
+
+                                <View style={{ height: 120 }} >
+                                    <Image source={{ uri: item.image }} style={styles.image} />
+                                </View>
+                                <View>
+                                    <Text style={styles.orderItem}>{item.name}</Text>
+                                    <Text style={styles.orderItem}>Số lượng: {item.quantity}</Text>
+                                    <View style={{ alignItems: 'center', justifyContent: 'center', flexDirection: 'row' }}>
+                                        <Text style={styles.orderTotal}>Tổng tiền:</Text>
+                                        <Text style={styles.orderTotal}>{formatNumberWithDot(calculateTotal(cartItems))} VNĐ</Text>
+                                    </View>
+                                </View>
+
+                            </View>
+                        </View>
+                    ))}
+
+                    <View style={styles.trangthai}>
+                        <View>
+                            <Icons name='checkcircleo'
+                                size={20}
+                                color='green'>
+
+                            </Icons>
+                        </View>
+                        <View style={{ marginLeft: 10 }}>
+                            <Text style={{ color: 'green' }}>
+                                Giao hàng thành công
+                            </Text>
+                        </View>
+
                     </View>
-                    <View style={styles.item_des}>
-                        <Text style={styles.text_item}>
-                            Áo phông
-                        </Text>
-                        <Text style={styles.text_item}>
-                            Brand : tokyo life
-                        </Text>
-                        <Text style={styles.text_item}>
-                            size : XL
-                        </Text>
-                        <Text style={styles.price}>
-                            50.000đ
-                        </Text>
-                    </View>
+
+
                 </View>
-                <View style={styles.trangthai}>
-                    <View>
-                        <Icons name='checkcircleo'
-                            size={20}
-                            color='green'>
 
-                        </Icons>
-                    </View>
-                    <View style={{ marginLeft: 10 }}>
-                        <Text style={{ color: 'green' }}>
-                            Giao hàng thành công
-                        </Text>
-                    </View>
-
-                </View>
-
-
-            </View>
-
-        </TouchableOpacity>
+            </TouchableOpacity>
 
         </ScrollView>
+            )}
     </View>
 
 }
@@ -125,29 +178,23 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     image: {
-        width: 'auto',
-        height: '80%',
-        borderRadius: 10,
-        marginHorizontal: 10,
-        marginVertical: 10
-    },
-    text_item: {
-        marginTop: 10,
-        marginLeft: 10,
-        fontSize: 15
-    },
-    price: {
-        marginTop: 20,
-        fontSize: 25,
-        fontWeight: 'bold',
-        color: 'red',
-        textAlign: 'center'
+        width: 100,
+        height: 100,
+        marginHorizontal: 30,
+        marginTop: 10
     },
     trangthai: {
         flexDirection: 'row',
         marginLeft: 10
+    },
+    orderItem:{
+        fontSize : 17
+    },
+    orderTotal:{
+        fontSize :18,
+        marginTop : 30,
+        color:'red'
     }
-
 
 })
 

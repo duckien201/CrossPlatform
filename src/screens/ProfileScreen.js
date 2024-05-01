@@ -9,7 +9,7 @@ import FontAwesome from "react-native-vector-icons/FontAwesome"
 import TextInput from '../components/TextInput';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function ProfileScreen({ navigation }) {
+export default function ProfileScreen({ navigation ,route }) {
   const [name, setName] = useState();
   const [email, setEmail] = useState();
   const [phone, setPhone] = useState();
@@ -75,8 +75,8 @@ export default function ProfileScreen({ navigation }) {
 
         <View style={styles.bodyProfile}>
           <View style={styles.bodyContent}>
-            <TouchableOpacity onPress={() => {
-              navigation.navigate('History', { title: "màn hình lịch sử đơn hàng" })
+            {/* <TouchableOpacity onPress={() => {
+              navigation.navigate('History')
             }}>
               <View style={styles.history}>
                 <View style={styles.iconHistory}>
@@ -93,7 +93,7 @@ export default function ProfileScreen({ navigation }) {
                     color="black"> </FontAwesome>
                 </View>
               </View>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
             <View style={styles.lineBody}></View>
             <TouchableOpacity onPress={() => {
               navigation.navigate('DanhGia', { title: "màn hình đánh giá đơn hàng" })

@@ -24,6 +24,7 @@ import BillDetail from './src/screens/more/BillDetail'
 import TinNhan from './src/screens/more/TinNhan'
 import Category from './src/components/Category'
 import UserDetail from './src/screens/UserDetail'
+import ChangePasswordScreen from './src/screens/ChangePasswordScreen'
 
 
 const Stack = createStackNavigator()
@@ -55,6 +56,7 @@ export default function App() {
           <Stack.Screen name="Dashboard" component={DashBoard} />
           <Stack.Screen name="PayCart" component={PayCart} />
           <Stack.Screen name="UserDetail" component={UserDetail} />
+          <Stack.Screen name="ChangePasswordScreen" component={ChangePasswordScreen} />
           <Stack.Screen
             name="ResetPasswordScreen"
             component={ResetPasswordScreen}

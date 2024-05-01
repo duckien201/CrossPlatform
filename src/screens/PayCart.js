@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, StyleSheet, Button, TouchableOpacity, ScrollView, Image } from 'react-native';
+import { View, Text, TextInput, StyleSheet, Button, TouchableOpacity, ScrollView, Image, Alert } from 'react-native';
 import Icons from 'react-native-vector-icons/AntDesign'
 export default function CheckoutScreen({ route, navigation }) {
   const { cartItems } = route.params;
@@ -20,15 +20,15 @@ export default function CheckoutScreen({ route, navigation }) {
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
   };
 
-  const handlePlaceOrder = ({ navigation }) => {
+  const handlePlaceOrder = () => {
 
     // Implement order processing logic here, potentially sending data to a server
     if (customerName.length === 0 || billingAddress.length === 0 || phoneNumber.length === 0) {
       alert(" bạn vui lòng nhập đầy đủ thông tin")
       return false;
     }
-    alert('bạn đã đặt hàng thành công...');
-    navigation.goBack(); // Go back to CartScreen after placing order
+    Alert.alert('bạn đã đặt hàng thành công...');
+    navigation.navigate('BillDetail', {cartItems, customerName, phoneNumber, billingAddress})
   };
 
   const renderOrderSummary = () => {
@@ -70,17 +70,16 @@ export default function CheckoutScreen({ route, navigation }) {
           alignItems: 'center',
           marginBottom: 15,
         }}>
-          {/* <Text >---------------------------------------------------------------------</Text> */}
         </View>
 
         {cartItems.map(item => (
           <View key={item.id} style={styles.orderItem}>
             <View style={{flexDirection :'row'}}>
-            <View>
+            <View style={{flex : 7}}>
               <Text style={styles.orderItemName}>{item.name}</Text>
               <Text style={styles.orderItemQuantity}>Số lượng: {item.quantity}</Text>
             </View>
-            <View>
+            <View style={{}}>
               <Image source={{ uri: item.image }} style={styles.image} />
             </View>
             </View>
@@ -107,7 +106,7 @@ export default function CheckoutScreen({ route, navigation }) {
           <TouchableOpacity onPress={() => navigation.goBack()}>
             <Icons name='arrowleft'
               size={25}
-              color=' black'>
+              color='black'>
             </Icons>
           </TouchableOpacity>
         </View>
@@ -150,7 +149,7 @@ export default function CheckoutScreen({ route, navigation }) {
           <Text >---------------------------------------------------------------------</Text>
         </View>
         {renderOrderSummary()}
-        <View style={{ justifyContent: "center", alignItems: "center", marginBottom: 14 }}>
+        <View style={{ justifyContent: "center", alignItems: "center", marginBottom: 20 }}>
           <TouchableOpacity style={styles.placeOrderButton} onPress={handlePlaceOrder}>
             <Text style={styles.placeOrderText}>Đặt hàng</Text>
           </TouchableOpacity>
@@ -176,7 +175,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     marginBottom: 10,
     fontSize: 25,
-    color: '#0A8D61',
+    color: 'green',
 
 
   },
@@ -213,7 +212,7 @@ const styles = StyleSheet.create({
   image: {
     width: 100,
     height: 100,
-    marginLeft : 50,
+    marginLeft : 40,
     borderRadius : 10
   },
   orderItemQuantity: {

@@ -1,74 +1,32 @@
 const mongoose = require("mongoose");
 
-const orderSchema = new mongoose.Schema({
-  user: {
-    type: mongoose.Schema.Types.ObjectId,
-    ref: "User",
-    require: true,
-  },
-  products: [
-    {
-      name: {
-        type: String,
-        required: true,
-      },
-      quantity: {
-        type: Number,
-        required: true,
-      },
-      price: {
-        type: Number,
-        required: true,
-      },
-      image: {
-        type: String,
-        required: true,
-      },
-    },
-  ],
-  totalPrice: {
-    type: Number,
-    required: true,
-  },
-  shippingAddress: {
-    name: {
-      type: String,
-      required: true,
-    },
-    mobileNo: {
-      type: String,
-      required: true,
-    },
-    houseNo: {
-      type: String,
-      required: true,
-    },
-    street: {
-      type: String,
-      required: true,
-    },
-    landmark: {
-      type: String,
-      required: true,
-    },
-    postalCode: {
-      type: String,
-      required: true,
-    },
-  },
-  paymentMethod: {
-    type: String,
-    required: true,
-  },
-  createdAt: {
-    type: Date,
-    default: Date.now,
-  },
-},{
-    collection :"Order"
-});
+const userDb = mongoose.createConnection(
+  'mongodb://localhost:27017/App',
+  // "mongodb+srv://kien0216766:danentang@cluster0.5fwosaq.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0",
+  function(err){
+    if(err){
+      console.error('Fail to connect to App database' + err);
+
+    }else{
+      console.error('Successfully connected to App database');
+    }
+  }
+)
 
 
-const Order = mongoose.model("Order",orderSchema);
 
-module.exports = Order;
+const OrderSchema = new mongoose.Schema(
+  {
+        nameUser: String,
+        address :String,
+        phone : String,
+        nameProduct: String,
+        price : String
+      },
+      {
+        collection: "Orders",
+      }
+)
+const OrderModel = userDb.model("Orders", OrderSchema);
+
+module.exports = OrderModel;

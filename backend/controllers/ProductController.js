@@ -1,4 +1,5 @@
 const ProductModel = require('../model/ProductModel')
+const SearchProductModel = require('../model/SearchModel')
 const jwt = require('jsonwebtoken');
 
 exports.getAllProducts = async(req , res, next)=>{
@@ -11,6 +12,19 @@ exports.getAllProducts = async(req , res, next)=>{
                 })
     }
 }
+
+exports.getProducts = async(req , res, next)=>{
+    try{
+        const searchproduct = await SearchProductModel.find();
+        res.json(searchproduct)
+    }catch (error){
+        return res.status(500).json({
+                    message :error
+                })
+    }
+}
+
+
 
 exports.addProduct = async(req, res,next)=>{
     try{
