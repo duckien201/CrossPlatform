@@ -11,7 +11,7 @@ import { passwordValidator } from '../helpers/passwordValidator'
 import { configureFonts } from 'react-native-paper'
 import { resetPassword } from '../../apiServices'
 
-export default async function ResetPasswordScreen({ navigation }) {
+export default function ResetPasswordScreen({ navigation }) {
   const [email, setEmail] = useState({ value: '', error: '' })
   const [newpassword, setNewPassword] = useState({ value: "", error: "" });
   const [confirmpassword, setConfirmPassword] = useState({value: "",error: "",});
@@ -93,11 +93,12 @@ export default async function ResetPasswordScreen({ navigation }) {
       >
         Đặt lại mật khẩu
       </Button>
-      <Dialog.Container visible={dialogVisible}>
+
+      {/* <Dialog.Container visible={dialogVisible}>
         <Dialog.Title>Thông báo</Dialog.Title>
         <Dialog.Description>{dialogMessage}</Dialog.Description>
         <Dialog.Button label="Đóng" onPress={() => setDialogVisible(false)} />
-      </Dialog.Container>
+      </Dialog.Container> */}
     </Background>
   )
 }

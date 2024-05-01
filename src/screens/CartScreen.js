@@ -49,7 +49,7 @@ export default function CartScreen({ route, navigation }) {
         <TouchableOpacity onPress={() => removeFromCart(item.id)}>
           <Icons name='delete'
             size={25}
-            color=' black'>
+            color='black'>
 
           </Icons>
         </TouchableOpacity>
@@ -96,7 +96,7 @@ export default function CartScreen({ route, navigation }) {
           <TouchableOpacity onPress={() => navigation.goBack()}>
             <Icons name='arrowleft'
               size={25}
-              color=' black'>
+              color='black'>
             </Icons>
           </TouchableOpacity>
         </View>
@@ -109,7 +109,7 @@ export default function CartScreen({ route, navigation }) {
         <View style={{ alignItems: 'center', justifyContent: 'center', marginTop: 200 }}>
           <Icons name='frowno'
             size={25}
-            color=' black'>
+            color='black'>
 
           </Icons>
           <Text style={{ fontSize: 24, margin: 20, alignItems: 'center', justifyContent: 'center' }}>Giỏ hàng của bạn còn trống.</Text>

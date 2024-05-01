@@ -15,7 +15,7 @@ export default function DetailItem({ route }) {
                     <TouchableOpacity onPress={() => navigation.goBack()}>
                         <Icons name='arrowleft'
                             size={25}
-                            color=' black'>
+                            color='black'>
                         </Icons>
                     </TouchableOpacity>
                 </View>
@@ -153,45 +153,12 @@ const styles = StyleSheet.create({
         marginVertical: 20,
         borderWidth: 1,
         borderColor: '#6945D6'
-
-    },
-    muangay: {
-        backgroundColor: 'red',
-        height: 40,
-        width: 120,
-        marginVertical: 20
     },
     description: {
         backgroundColor: '#E5F3FE',
         marginVertical: 10,
         marginHorizontal: 10
-    },
-    all: {
-        flexDirection: 'row',
-        marginTop: 20
-    },
-    textitem_1: {
-        flexDirection: 'row'
-    },
-    all_item: {
-        width: 80,
-        height: 30,
-        backgroundColor: '#E5F3FE',
-        marginLeft: 20,
-        borderRadius: 10
-    },
-    all_item_text: {
-        textAlign: 'center',
-        marginTop: 3
-    },
-    all_item_1: {
-        width: 150,
-        height: 200,
-        borderRadius: 10,
-        borderColor: 'gray',
-        marginLeft: 15,
-        borderWidth: 1,
-        marginLeft: 40
     }
+
 
 })

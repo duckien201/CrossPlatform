@@ -24,8 +24,7 @@ const HomeScreen = ({ navigation }) => {
                             <TouchableOpacity>
                                 <MaterialIcons name='search'
                                     size={25}
-                                    color=' black'>
-
+                                    color='black'>
                                 </MaterialIcons>
                             </TouchableOpacity>
                         </View>
@@ -40,7 +39,7 @@ const HomeScreen = ({ navigation }) => {
                 }}>
                     <Icon1 name='bell'
                         size={25}
-                        color=' black'>
+                        color='black'>
 
                     </Icon1>
                 </TouchableOpacity>
@@ -52,7 +51,7 @@ const HomeScreen = ({ navigation }) => {
                 }}>
                     <Icons name='message1'
                         size={25}
-                        color=' black'>
+                        color='black'>
 
                     </Icons>
                 </TouchableOpacity>

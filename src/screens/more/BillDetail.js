@@ -1,4 +1,4 @@
-import React from 'react'
+import React,{ useEffect, useState } from 'react'
 import { Image } from 'react-native'
 import { StyleSheet, Text, View, TouchableOpacity, TextInput, ScrollView } from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons'
@@ -6,8 +6,25 @@ import Icons from 'react-native-vector-icons/AntDesign';
 import Icon1 from 'react-native-vector-icons/Entypo';
 import Icon2 from 'react-native-vector-icons/Feather';
 import Button from '../../components/Button'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const BillDetail = ({ navigation, route }) => {
     var date = new Date()
+    const [name, setName] = useState();
+    const [email, setEmail] = useState();
+    const [phone, setPhone] = useState();
+
+    useEffect(() => {
+        const fetchUserData = async () => {
+          const userData = await AsyncStorage.getItem("user");
+          if (userData) {
+            const user = JSON.parse(userData);
+            setName(user.name)
+            setEmail(user.email)
+            setPhone(user.phone)
+          }
+        }
+        fetchUserData()
+      }, [])
     var today = date.getDate() + '/' + (date.getMonth() + 1) + "/" + date.getFullYear()
     const { customerName, phoneNumber, billingAddress, cartItems } = route.params
     const calculateTotal = () => {
@@ -103,6 +120,9 @@ const BillDetail = ({ navigation, route }) => {
                         </View>
                     </View>
                     <View style={{ marginLeft: 10 }}>
+                    <Text style={styles.text_infor}>
+                            Tài khoản: {name}
+                        </Text>
                         <Text style={styles.text_infor}>
                             Tên: {customerName}
                         </Text>
@@ -183,20 +203,8 @@ const BillDetail = ({ navigation, route }) => {
 
                         </View>
                     </View>
-                    <View style={{ flexDirection: 'row' }}>
-                        <View>
-                            <Text >
-                                Thời gian nhận được hàng:
-                            </Text>
-                        </View>
-                        <View style={styles.chitiet2}>
-                            <Text >
-                                {today}
-                            </Text>
-                        </View>
-                    </View>
                 </View>
-                <Button mode="contained" onPress={() => navigation.navigate('HomeScreen',{cartItems,customerName,phoneNumber,billingAddress})}>
+                <Button mode="contained" onPress={() => navigation.navigate('HomeScreen')}>
                         Hoàn tất
                     </Button>
             </ScrollView>

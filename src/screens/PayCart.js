@@ -1,12 +1,14 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, StyleSheet, Button, TouchableOpacity, ScrollView, Image, Alert } from 'react-native';
 import Icons from 'react-native-vector-icons/AntDesign'
-export default function CheckoutScreen({ route, navigation }) {
+export default function PayCart({ route, navigation }) {
   const { cartItems } = route.params;
   const [customerName, setCustomerName] = useState('');
   const [billingAddress, setBillingAddress] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
 
+
+  
   const calculateTotal = () => {
     let total = 0;
     cartItems.forEach(item => {
@@ -251,7 +253,7 @@ const styles = StyleSheet.create({
     width: 150,
     justifyContent: 'center',
     textAlign: "center",
-    backgroundColor: 'blue',
+    backgroundColor: '#F75252',
     padding: 15,
     borderRadius: 10,
     marginTop: 20,

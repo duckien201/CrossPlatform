@@ -58,6 +58,24 @@ try{
 }
 }
 
+export const changePassword = async (email, entercurentPassword,newPassword) =>{
+    try{
+        const response = await axios.post(`${IP_USERS}/change_password`,{
+            email,
+            newPassword,
+            entercurentPassword
+        })
+        return response.data
+    }catch(error){
+        console.log(error);
+        if(error.response){
+            throw new Error(error.response.data.message)
+        }else{
+            throw new Error(error.message)
+        }
+    
+    }
+    }
 
 export const getAllProducts = async()=>{
     try{

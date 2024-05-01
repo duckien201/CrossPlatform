@@ -1,5 +1,5 @@
 const UsersModel =require( "../model/UserModel.js");
-
+const bcrypt = require('bcrypt')
 exports.register = async (req, res, next) => {
     try {
       if (
@@ -68,7 +68,7 @@ exports.resetPassword = async (req, res, next) => {
         });
       }
   
-      const user = await UsersModel.findOne({ email: req.body.email });
+      const user = await UsersModel.findOne({ email: req.body.email  });
   
       if (!user) {
         return res.status(400).json({ message: "The email does not exist." });
@@ -82,3 +82,42 @@ exports.resetPassword = async (req, res, next) => {
       next(error);
     }
   } 
+
+  exports.changePassword = async (req, res, next) => {
+    try {
+      if (!req.body.email || !req.body.currentPassword || !req.body.newPassword) {
+        return res
+          .status(400)
+          .json({ message: "Please enter all required fields." });
+      }
+  
+      const user = await UsersModel.findOne({ email: req.body.email  });
+  
+      if (!user) {
+        return res.status(400).json({ message: "The email does not exist." });
+      }
+  
+      const validPassword = await bcrypt.compare(
+        req.body.currentPassword,
+        user.password
+      )
+
+      if(!validPassword){
+        return res
+        .status(400)
+        .json({message :"The current password is incorrect"})
+      }
+
+      const hashedPassword = await bcrypt.hash(req.body.newPassword,saltRounds)
+
+      user.password = hashedPassword;
+      await user.save();
+  
+      res.json({ message: "Password change successfully" ,
+      password :user.password
+    });
+    } catch (error) {
+      next(error);
+    }
+  }
+

@@ -1,17 +1,31 @@
-import React, { useState } from 'react';
-import { View, Text, StyleSheet, TextInput} from 'react-native';
+import React, { useState , useEffect } from 'react';
+import { View, Text, StyleSheet, TextInput,TouchableOpacity} from 'react-native';
 import Button from '../components/Button';
 import Header from '../components/Header';
+import Icons from 'react-native-vector-icons/AntDesign';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { changePassword } from '../../apiServices';
+export default function ChangePasswordScreen({navigation}) {
 
-export default function ChangePasswordScreen() {
     const [currentPassword, setCurrentPassword] = useState('');
     const [newPassword, setNewPassword] = useState('');
     const [confirmNewPassword, setConfirmNewPassword] = useState('');
+    const [entercurrentPassword, setEnterCurrentPassword] = useState('');
     const [error, setError] = useState('');
 
-    const handleChangePassword = () => {
-        // Kiểm tra mật khẩu hiện tại và các điều kiện khác
-        if (!currentPassword || !newPassword || !confirmNewPassword) {
+    useEffect(() => {
+        const fetchUserData = async () => {
+          const userData = await AsyncStorage.getItem("user");
+          if (userData) {
+            const user = JSON.parse(userData);
+            setCurrentPassword(user.password)
+          }
+        }
+        fetchUserData()
+      }, [])
+
+    const handleChangePassword = async() => {
+        if (!entercurrentPassword || !newPassword || !confirmNewPassword) {
             setError('Vui lòng nhập đầy đủ thông tin.');
             return;
         }
@@ -20,24 +34,53 @@ export default function ChangePasswordScreen() {
             setError('Mật khẩu mới và xác nhận mật khẩu không khớp.');
             return;
         }
-
-        // Thực hiện logic thay đổi mật khẩu ở đây, ví dụ: gửi yêu cầu đến máy chủ hoặc cơ sở dữ liệu
-
-        // Sau khi thay đổi mật khẩu thành công, xóa dữ liệu và hiển thị thông báo thành công
-        setCurrentPassword('');
-        setNewPassword('');
-        setConfirmNewPassword('');
-        setError('Mật khẩu đã được thay đổi thành công.');
+        try{
+            const userData = await AsyncStorage.getItem('user');
+            const user = JSON.parse(userData);
+            const response = await changePassword(
+                user.email,
+                entercurrentPassword,
+                newPassword
+            )
+            console.log(response)
+            
+            if ( response.message === "Password change successfully"){
+                setCurrentPassword('');
+                setNewPassword('');
+                setConfirmNewPassword('');
+        
+                setError('Mật khẩu đã được thay đổi thành công.');
+            }else{
+                alert(response.message);
+              }
+            }catch(error){
+              alert(error,message)
+              
+            }
     };
 
     return (
         <View style={styles.container}>
+            <View style={{flexDirection:'row'}}>
+                <View style={styles.iconback}>
+                    <TouchableOpacity onPress={() => navigation.goBack()}>
+                        <Icons name='arrowleft'
+                            size={25}
+                            color='black'>
+                        </Icons>
+                    </TouchableOpacity>
+                </View>
+            <View style={styles.text_header}>
             <Header>Đổi mật khẩu</Header>
+            </View>
+            
+            </View>
+            
             <Text style={styles.label}>Mật khẩu hiện tại:</Text>
             <TextInput
                 style={styles.input}
-                value={currentPassword}
-                onChangeText={setCurrentPassword}
+                value={entercurrentPassword}
+                onChangeText={setEnterCurrentPassword}
                 secureTextEntry={true}
             />
             <Text style={styles.label}>Mật khẩu mới:</Text>
@@ -80,4 +123,10 @@ const styles = StyleSheet.create({
         color: 'red',
         marginBottom: 10,
     },
+    iconback:{
+        marginTop : 15
+    },
+    text_header:{
+        marginLeft : 90
+    }
 });

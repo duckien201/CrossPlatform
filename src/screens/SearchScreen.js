@@ -66,7 +66,7 @@ export default function SearchProduct({ navigation }) {
 
                 <MaterialIcons name='search'
                     size={30}
-                    color=' black'
+                    color='black'
                     style={{
                         position: 'absolute',
                         top: 15,
