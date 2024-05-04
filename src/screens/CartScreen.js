@@ -4,7 +4,7 @@ import Icons from 'react-native-vector-icons/AntDesign'
 
 
 export default function CartScreen({ route, navigation }) {
-  const { item } = route.params;
+  const  item  = route.params ? route.params.item : null;
   const [cartItems, setCartItems] = useState([]);
   const addToCart = (productToAdd) => {
     const existingProduct = cartItems.find(item => item.id === productToAdd.id);
@@ -17,7 +17,6 @@ export default function CartScreen({ route, navigation }) {
       });
       setCartItems(updatedCartItems);
     } else {
-      // Nếu sản phẩm chưa tồn tại trong giỏ hàng, thêm mới vào
       setCartItems([...cartItems, { ...productToAdd, quantity: 1 }]);
     }
   };
@@ -26,7 +25,6 @@ export default function CartScreen({ route, navigation }) {
     setCartItems(updatedCart);
   };
 
-  // useEffect để cập nhật giỏ hàng khi có thay đổi trong cartItems
   useEffect(() => {
     if (item) {
       addToCart(item);

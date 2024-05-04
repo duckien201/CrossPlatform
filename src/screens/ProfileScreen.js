@@ -18,13 +18,9 @@ export default function ProfileScreen({ navigation ,route }) {
   const handleEditProfile = () => {
 
     console.log('Thông tin đã được lưu:', { name, email, phone });
-    // Hiển thị thông báo hoặc thực hiện các thao tác khác ở đây
-    setIsEditing(false); // Kết thúc chế độ chỉnh sửa
+    setIsEditing(false);
   };
 
-  const handleChangePassword = () => {
-    navigation.navigate('ChangePasswordScreen');
-  };
 
   useEffect(() => {
     const fetchUserData = async () => {

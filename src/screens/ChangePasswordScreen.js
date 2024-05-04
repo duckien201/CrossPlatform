@@ -44,7 +44,7 @@ export default function ChangePasswordScreen({navigation}) {
             )
             console.log(response)
             
-            if ( response.message === "Password change successfully"){
+            if (response && response.message === "Password change successfully"){
                 setCurrentPassword('');
                 setNewPassword('');
                 setConfirmNewPassword('');

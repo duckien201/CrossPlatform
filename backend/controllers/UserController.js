@@ -1,5 +1,11 @@
 const UsersModel =require( "../model/UserModel.js");
 const bcrypt = require('bcrypt')
+const jwt = require('jsonwebtoken');
+const SECRET_KEY = "hvdvay6ert72839289()aiyg8t87qt72393293883uhefiuh78ttq3ifi78272jdsds039[]]pou89ywe"
+const REFRESH_SECRET_KEY = "hvdvay6ert72839289()aiyg8t87qt72393293883uhefiuh78ttq3ifi78272jdsds039[]]pou89ywe"
+const saltRounds = 10
+const EXPIRES_IN = "4d"
+const REFRESH_EXPIRES_IN = '7d'
 exports.register = async (req, res, next) => {
     try {
       if (
@@ -20,8 +26,9 @@ exports.register = async (req, res, next) => {
           .status(400)
           .json({ message: "Email đã tồn tại , vui lòng đăng nhập !" });
       }
+      const hashedPassword = await bcrypt.hash(req.body.password , saltRounds)
   
-      const user = new UsersModel(req.body);
+      const user = new UsersModel({...req.body , password : hashedPassword});
       const result = await user.save();
   
       res.json({ message: "Đăng ký thành công!", user: result });
@@ -45,10 +52,26 @@ exports.login = async (req, res, next) => {
         return res.status(400).json({ message: "Không tồn tại email" });
       }
   
-      if (user.password !== req.body.password) {
+      const validPassword = await bcrypt.compare(
+        req.body.password,
+        user.password
+      )
+      if (!validPassword) {
         return res.status(400).json({ message: "Sai mật khẩu vui lòng nhập lại" });
       }
-      res.json({ message: "Đăng nhập thành công!", user: user });
+      if(validPassword){
+        const token = jwt.sign({_id :user._id} , SECRET_KEY ,{
+          expiresIn : EXPIRES_IN,
+        })
+        const refreshToken = jwt.sign({_id :user._id} , REFRESH_SECRET_KEY ,{
+          expiresIn : REFRESH_EXPIRES_IN,
+        })
+        res.json({ message: "Đăng nhập thành công!", 
+          user: user,
+          token : token,
+          refreshToken : refreshToken });
+      }
+      
     } catch (error) {
       next(error);
     }
@@ -74,7 +97,10 @@ exports.resetPassword = async (req, res, next) => {
         return res.status(400).json({ message: "The email does not exist." });
       }
   
-      user.password = req.body.newpassword;
+
+      const hashedPassword = await bcrypt.hash(req.body.newpassword , saltRounds)
+
+      user.password = hashedPassword;
       await user.save();
   
       res.json({ message: "Password reset successfully" });
@@ -116,7 +142,7 @@ exports.resetPassword = async (req, res, next) => {
       res.json({ message: "Password change successfully" ,
       password :user.password
     });
-    } catch (error) {
+  } catch (error) {
       next(error);
     }
   }
