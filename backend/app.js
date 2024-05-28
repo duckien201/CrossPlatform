@@ -3,6 +3,7 @@ const app = express();
 const bodyParser = require("body-parser");
 const userRoutes = require('./routes/UserRoutes.js')
 const productRoutes = require('./routes/ProductRoutes.js')
+const orderRoutes = require('./routes/OrderRoutes.js')
 const cors = require('cors');
 const jwt = require('jsonwebtoken');
 
@@ -30,6 +31,7 @@ app.use((err, req, res, next) => {
 });
 app.use('/api/users',userRoutes);
 app.use('/api/products',productRoutes)
+app.use('/api/orders',orderRoutes)
 // Check login
 // app.post("/login", login);
 

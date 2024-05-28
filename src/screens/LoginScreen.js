@@ -36,7 +36,7 @@ export default function LoginScreen({ navigation }) {
         // await AsyncStorage.setItem("token", response.token);
         // await AsyncStorage.setItem('refreshToken', response.refreshToken);
         await AsyncStorage.setItem('user', JSON.stringify(response.user));
-        console.log(response.user)
+        //console.log(response.user)
         navigation.reset({
           index: 0,
           routes: [{ name: "Dashboard" }],
